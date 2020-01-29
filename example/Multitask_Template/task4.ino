@@ -1,20 +1,20 @@
-// รูปแบบมาตรฐานฟังกชั่น task สำหรับ TridentTD's Multitask
+/ *
+  * Note
+  * Within the task function, always use the uppercase DELAY (..) instead.
+  * /
+  
+// Standard format, task function for TridentTD's Multitask
 
-void task4_func(void*)  {   // ฟังกชั่นที่ task4 เรียกทำงาน  - void ใช้ตัวพิมพ์เล็ก
-  //----พื้นที่สำหรับประกาศตัวแปรที่ใช้ภายใน task นี้เท่านั้น----
+void task4_func (void *) {// function that task4 activates - void uses lowercase
+   // ---- Space for declaring variables used within this task only ----
 
-  //-----------------------------------------------
+   // -----------------------------------------------
 
-  VOID SETUP() {  // VOID SETUP() ใน task ให้ใช้ตัวพิมพ์ใหญ่
+   VOID SETUP () {// VOID SETUP () in the task, use capital letters
 
-  }
-  VOID LOOP() {   // VOID LOOP() ใน task ให้ใช้ตัวพิมพ์ใหญ่
+   }
+   VOID LOOP () {// VOID LOOP () in the task, use uppercase
 
-  }
+   }
 }
-
-/*
- * หมายเหตุ
- * ภายใน task function ให้ใช้้ DELAY(..)  ตัวพิมพ์ใหญ่แทนเสมอ
- */
 
