@@ -1,19 +1,19 @@
 
-void myprint(void*){          // task สอง เรียกทำงานที่นี่
-  //----พื้นที่สำหรับประกาศตัวแปรที่ใช้ภายใน task นี้เท่านั้น----
+void myprint(void*){         // Task two, activate here
+   // ---- Space for declaring variables used within this task only ----
 
   //-----------------------------------------------
   
-  VOID SETUP(){               // เหมือน setup() แต่ใส่ชื่อเป็น SETUP() พิมพ์ใหญ่แทน
+  VOID SETUP(){              // Same as setup () but with the name as SETUP () in uppercase instead
     for(int i = 0; i <=20; ++i){
       Serial.println(random(1000));
-      DELAY(300);             // เหมือน delay(..) แต่ใส่ชื่อเป็น DELAY(..)พิมพ์ใหญ่แทน
+      DELAY(300);             // Same as delay (..) but with the name as DELAY (..) capitalized instead
     }
     Serial.println("------------------------");
     Serial.println("END myprint Task");
   }
 
-  VOID LOOP(){                // เหมือน loop() แต่ใส่ชื่อเป็น LOOP() พิมพ์ใหญ่แทน
+  VOID LOOP(){               // Same as loop () but with the name LOOP () in uppercase instead
     DELAY(1);
   }
 }
