@@ -1,17 +1,17 @@
 #include <TridentTD_EasyFreeRTOS32.h>
 
-TridentOS   task1, task2;  // สร้าง task กี่ตัวก็ใส่ไป
-void myblink(void*), myprint(void*); //ชื่อฟังกชั่นที่ taskจะเรียกทำงาน
+TridentOS   task1, task2;  // Create as many tasks as possible
+void myblink(void*), myprint(void*); // Function name that task will launch
 
-//----พื้นที่ส่วนนี้สำหรับประกาศตัวแปรที่ใช้แชร์ข้อมูลกันระหว่าง task ------
+// ---- This area is for declaring variables to share data between tasks ------
 
 //---------------------------------------------------------
 
 void setup() {
   Serial.begin(115200); Serial.println();
-  task1.start( myblink );     // เริ่ม task แรก ให้ไปเรียก myblink ทำงาน
-  task2.start( myprint );     // เริ่ม task สอง ให้ไปเรียก myprint ทำงาน
+  task1.start( myblink );     // Start the first task, call myblink to work
+  task2.start( myprint );     // Start the second task, run myprint
 }
 
-void loop() {}                // ไม่ต้องใช้อีกต่อไปแต่มีไว้
+void loop() {}                // No need to use anymore, but with
 
