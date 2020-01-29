@@ -1,32 +1,32 @@
-/***************************************************** 
- *
- *  WiFi_func 
- *
- *  task นี้จะทำหน้าที่ เชื่อมต่อ WiFi เท่านั้น
- *  หากไวไฟหลุด จะข้ามไปสั่ง Blink_task ให้กระพริบถี่ๆ 
- *  
- *  หมายเหตุ
- *  ภายใน task ให้ใช้ DELAY() ตัวพิมพ์ใหญ่ทั้งหมด
- *  
- ******************************************************/
+/ *************************************************** ****
+  *
+  * WiFi_func
+  *
+  * This task will connect to WiFi only.
+  * If the Wi-Fi is disconnected, skip to Blink_task to blink rapidly
+  *
+  * Note
+  * Within the task, use all capital letters DELAY ()
+  *
+  **************************************************** **** /
 
 #include <WiFi.h>
 
 #define WIFI_SSID           "---------"
 #define WIFI_PASSWORD       "---------"
-#define WIFI_INTERVAL       2           // (นาที)   ช่วงเวลาที่จะเช็คสถานะไวไฟรอบถัดไป
+#define WIFI_INTERVAL       2           // (minutes) time to check the next Wi-Fi status
 
 void WiFi_func(void*){  
-  //----พื้นที่สำหรับประกาศตัวแปรที่ใช้ภายใน task นี้เท่านั้น----
+  // ---- Space for declaring variables used within this task only ----
 
   //-----------------------------------------------
 
-  VOID SETUP(){                       // VOID SETUP() ใน task ใช้พิมพ์ใหญ่
+  VOID SETUP(){                       // VOID SETUP() In the task, use uppercase
     WiFi.begin( WIFI_SSID, WIFI_PASSWORD );
   }
-  VOID LOOP(){                        // VOID LOOP() ใน task ใช้พิมพ์ใหญ่
+  VOID LOOP(){                        // VOID LOOP() In the task, use uppercase
     if( !WiFi.isConnected() ) {
-      // สั่ง Blink_task ให้ ไฟกระพริบ ถี่ ทุก 80 ms
+      // Order Blink_task to blink light every 80 ms
       xBlink_Delay = 80;  //ms
       Blink_task.start( Blink_func );
   
@@ -34,14 +34,14 @@ void WiFi_func(void*){
       Serial.print("[WiFi] WiFi Connected, IP : ");
       Serial.println(WiFi.localIP());
       
-      // สัง Blink_task หยุดการทำงาน หลังไวไฟเชื่อมต่อได้แล้ว
+      // Sang the Blink Task has stopped working after connecting to Wi-Fi
       Blink_task.stop();  
 
-      // สั่งให้ AsyncWebServer_task เริ่มทำงาน
+      // instruct AsyncWebServer_task to start
       AsyncWebServer_task.start(AsycWebServer_func);
     }
     
-    DELAY( WIFI_INTERVAL *60000); // เช็คสถานะไวไฟทุกๆ กี่นาทีถัดไป
+    DELAY( WIFI_INTERVAL *60000); // Check the wifi status every few minutes
   }
 }
 
