@@ -1,29 +1,29 @@
-/*****************************************************
+/ *************************************************** ****
  *
  * AsycWebServer_func
  *
- * task นี้จะทำหน้าที่ สร้าง WebServer แบบ Asynchronous
- * ทาง WebServer ไม่จำเป็นต้องรอให้ client นึงๆที่ติดต่อเข้ามา
- * เรียกทำงานจนจบกระบวนการ ค่อยให้ client ถัดไปใช้งาน
- * ทำให้การทำงานแบบ Multitask มีความไหลลื่นกว่าปกติ
+ * This task will create the Asynchronous WebServer.
+ * WebServer doesn't have to wait for any client to contact
+ * Run until the end of the process for the next client to use
+ * Makes Multitask work more fluid than usual
  *
- * หมายเหตุ
- * ภายใน task ให้ใช้ DELAY() ตัวพิมพ์ใหญ่ทั้งหมด
- * ไลบรารี่ สร้าง WebServer แบบ Asynchronous ให้ติดตั้งไลบรารี่ทั้ง 2 นี้
- *    https://github.com/me-no-dev/AsyncTCP
- *    https://github.com/me-no-dev/ESPAsyncWebServer
+ * Note
+ * Within the task, use all capital letters DELAY ().
+ * The library creates an Asynchronous WebServer to install both libraries.
+ * https://github.com/me-no-dev/AsyncTCP
+ * https://github.com/me-no-dev/ESPAsyncWebServer
  *
- ****************************************************/
+ **************************************************** ** /
 
 #include <ESPAsyncWebServer.h>
 
 AsyncWebServer server(80);
 
 void AsycWebServer_func(void*) {
-  //----พื้นที่สำหรับประกาศตัวแปรที่ใช้ภายใน task นี้เท่านั้น----
+ // ---- Space for declaring variables used within this task only ----
 
   //-----------------------------------------------
-  VOID SETUP() {                       // VOID SETUP() ใน task ใช้พิมพ์ใหญ่
+  VOID SETUP() {                      // VOID SETUP () in the task using uppercase
     server.on("/heap", HTTP_GET, [](AsyncWebServerRequest * request) {
       request->send(200, "text/plain", String(ESP.getFreeHeap()));
     });
@@ -44,8 +44,8 @@ void AsycWebServer_func(void*) {
     server.begin();
   }
 
-  VOID LOOP() {                        // VOID LOOP() ใน task ใช้พิมพ์ใหญ่
-    DELAY(1);                          // DELAY(..) ใน task ใช้พิมพ์ใหญ่
+  VOID LOOP() {                        // VOID LOOP () in the task using uppercase
+    DELAY(1);                          // DELAY (..) in the task, use uppercase
   }
 }
 
