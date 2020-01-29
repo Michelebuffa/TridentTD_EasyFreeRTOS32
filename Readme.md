@@ -2,81 +2,80 @@ TridentTD_EasyFreeRTOS32 Library
 ===
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-ไลบรารี่สำหรับ เขียนแบบ Multitasking แบบ TridentTD บนเพรตฟอร์ม ESP32  
+TridentTD multitasking library on the ESP32 platform  
 
 <p align="center">
   <img src="Picture.png" alt="image"/>
 </p>  
 
-### วิธีการใช้งาน  
+### How to use
 
-1. เรียกใช้ไลบรารี่  
+1.Run the library 
 ```c  
      #include <TridentTD_EasyFreeRTOS32.h>
 ``` 
-2. ประกาศตัวแปร task ย่อยๆ และ ฟังกชั่น ที่ task จะเรียกขึ้นทำงาน  
+2. Announcement of sub-task variables and functions that the task will call up  
 ```c  
      TridentOS   task1, task2, task3;
      void task1_func(void*), task2_func(void*), task3_func(void*);
 ```
-3. รูปแบบมาตรฐาน ฟังก์ชั่น task ย่อยๆ ที่จะถูกเรียกใช้งาน เป็นดังนี้  
+3. The standard type of the sub-task function that will be called is as follows.
 ```c
-    void task1_func(void*)  {   // ฟังกชั่นที่ task1 เรียกทำงาน  - void ใช้ตัวพิมพ์เล็ก
-          //----พื้นที่สำหรับประกาศตัวแปรที่ใช้ภายใน task นี้เท่านั้น----
+    void task1_func(void*)  {   // Function that task1 activates - void uses lowercase
+          // ---- Space for declaring variables used within this task only ----
 
           //-----------------------------------------------
 
-          VOID SETUP() {  // VOID SETUP() ใน task ให้ใช้ตัวพิมพ์ใหญ่
+          VOID SETUP() {  // VOID SETUP() In the task, use capital letters.
 
           }
-          VOID LOOP() {   // VOID LOOP() ใน task ให้ใช้ตัวพิมพ์ใหญ่
+          VOID LOOP() {   // VOID LOOP() In the task, use capital letters.
 
           }
     }
 
 ```
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-**หมายเหตุ**  
+**note** 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-ภายในฟังกชั่น task ให้ใช้ delay ด้วยคำสั่ง DELAY(..) ตัวพิมพ์ใหญ่เท่านั้น  
+Within the task function, use delay with the DELAY command (..) in uppercase only.
 
-4. หากจะเรียก task ไหนทำงาน เช่น สำหรับ task1 ใช้คำสั่ง  
+4. If calling a task, for example, for task1, use the command  
 ```c
      task1.start(task1_func);
 ```
-5. หากจะหยุด task ไหนทำงาน เช่น สำหรับ task1 ใช้คำสั่ง  
+5. If going to stop which task, for example, for task1, use the command
 ```c
      task1.stop();
 ```
-6. หากจะใช้งานต่อ task ไหนทำงาน เช่น สำหรับ task1 ใช้คำสั่ง  
+6. If you want to continue using which task, for example, for task1, use the command
 ```c
      task1.resume();
 ```
 
-7. สำหรับการแลกเปลี่ยนข้อมูลระหว่าง task ให้ ประกาศตัวแปรไว้ใน  
-พื้นที่ ประกาศตัวแปรสำหรับแชร์ระหว่าง task (ดูที่ Template)  
-โดย ให้มีมาตรฐานการตั้งชื่อ ตัวแปรสำหรับแชร์ระหว่าง task ให้ขึ้นต้นนำด้วยตัว x (เอ็กซ์พิมพ์เล็ก)
-
+7. For data exchange between tasks, declare variables in
+Variable notification area for sharing between tasks (see Template)
+By having the standard for naming Variables for sharing between tasks. Begin with x (lowercase x).
 ```c
-    //------- พื้นที่สำหรับประกาศตัวแปรแชร์ระหว่าง task ---------------
-     float  xDHT_temp, xDHT_humid;    // มีตัว x เล็กนำหน้า เพื่อง่ายต่อการสังเกตุ
+   // ------- Space for declaring shared variables between tasks ---------------
+     float  xDHT_temp, xDHT_humid;    // has a small prefix x for easy observation
     //---------------------------------------------------------
 ```
 
-### การจูนพื้นที่เม็มโมรี่สำหรับ task นึงๆ
+### Tuning memory space for a task
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-ในบางครั้งเพื่อการทำงานของ task นึงๆ เพื่อให้สามารถทำงานได้อย่างมีประสิทธิภาพ   
-บางคราวเราอาจมีความจำเป็นต้องมีการปรับจูนพื้นที่เม็มสำหรับ task นึงๆให้เหมาะสมกับการใช้งาน  
+Sometimes for the task of a task to be able to work more efficiently.
+Sometimes we may need to adjust the memory space for a task to suit the use.
   
-วิธีการปรับจูนพื้นที่เม็มโมมี่ สำหรับ task นึงๆสามารถปรับได้ด้วยคำสั่งดังนี้  
+The method of adjusting memory space for a task can be adjusted with the following command.
 ```c
-     task1.start(task1_func, NULL, 4096);  // ขอใช้พื้นที่ขนาด 4096bytes
+     task1.start(task1_func, NULL, 4096);  // Request to use the space 4096bytes
 ```
 
 
 -----
-**TridentTD**  
-24 พฤษภาคม 2561 (ปีแห่งฤดูฝนตกชุก)  
-วัน ๕᧪๗ ปีจอ  
-Version 1.0  
+** TridentTD **
+24 May 2018 (the year of heavy rain)
+5 days 7 screen years
+Version 1.0
 
