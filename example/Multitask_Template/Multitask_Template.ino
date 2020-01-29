@@ -1,35 +1,34 @@
+/ *
+ * TridentOS standard specifications
+ * - In the main setup (), there is nothing else.
+ * In addition to calling the desired task to work
+ * - In the main loop (), there is no other operation at all
+ * - Each task has its own VOID SETUP () and VOID LOOP () By using a big print
+ * And if using DELAY (..), always use uppercase
+ * - In a single task, can call other tasks to work
+ * For example, can call task3.begin (task3_func); Can work from within task1
+ * - If the task will be stopped after work
+ * For example, to stop the task3, use the command task3.stop ();
+ * - If wanting to resume working, call task3.resume ();
+ * - Variables used to share between standard tasks. Always use the lowercase x in front.
+ * /
+       
 #include <TridentTD_EasyFreeRTOS32.h>
 
-TridentOS   task1, task2, task3, task4, task5;    // ประกาศตัวแปร task
-void  task1_func(void*), task2_func(void*),       // ฟังกชั่นที่ task จะเรียกทำงาน
+TridentOS   task1, task2, task3, task4, task5;    // declare task variable
+void  task1_func(void*), task2_func(void*),       // The function that the task will launch
       task3_func(void*), task4_func(void*), task5_func(void*);
 
-//----พื้นที่ส่วนนี้สำหรับประกาศตัวแปรที่ใช้แชร์ข้อมูลกันระหว่าง task ------
+// ---- This area is for declaring variables to share data between tasks ------
 
 
 //---------------------------------------------------------
 
-void setup(){  // setup() หลัก ใช้ตัวพิมพ์เล็ก
+void setup(){  // setup () digits using lowercase
   Serial.begin(115200); Serial.println();
 
-  task1.start( task1_func );  // เรียก task1_func ขึ้นมาทำงาน
-  task2.start( task2_func );	// เรียก task2_func ขึ้นมาทำงาน
+  task1.start( task1_func );  // calling task1_func up and running
+  task2.start( task2_func );	// call task2_func up and running
 }
 
-void loop(){}  // loop() หลักใช้ตัวพิมพ์เล็ก
-
-/*
- * ข้อกำหนดมาตรฐาน TridentOS
- *   - ใน setup() หลัก ไม่มีการทำงานอย่างอื่นใด
- *     นอกจาก เรียก task ที่ต้องการขึ้นมาทำงาน
- *   - ใน loop() หลัก  ไม่มีการทำงานอย่างอื่นใดๆเลย
- *   - ในแต่ละ task จะมี VOID SETUP()  และ VOID LOOP() เป็นของตัวเอง โดยใช้พิพม์ใหญ่
- *     และหากจะใช้ DELAY(..) ให้ใช้พิมพ์ใหญ่เสมอ
- *   - ใน task นึงๆ สามารถเรียก task อื่นๆ ขึ้นมาทำงาน ก็ได้
- *     เช่น สามารถเรียก task3.begin( task3_func); ขึ้นมาทำงานจากภายใน task1 ได้
- *   - หากจะหยุด task หลังทำงานไปแล้ว
- *     เช่น หยุดการทำงาน task3  ก็ใช้คำสั่ง  task3.stop();
- *   - หากจะให้กลับมาทำงานใหม่ ก็เรียก task3.resume();
- *   - ตัวแปรที่ใช้แชร์ระหว่าง task มาตรฐานให้ใช้ x พิมพ์เล็กนำหน้าเสมอ
- */
-
+void loop(){}  // loop () digits use lowercase
