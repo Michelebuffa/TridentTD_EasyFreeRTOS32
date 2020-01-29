@@ -1,49 +1,49 @@
-/************************************************************** 
+/ *************************************************** *************
  *
- *  DHT_func
- * 
- *  task นี้จะทำหน้าที่ อ่านค่าเซนเซอร์ DHT อย่างเดียว 
- *  จะไม่มีการทำงานอย่างอื่นเป็นการแบ่ง งานกันทำอย่างเด็ดขาดไม่ปะปนกัน
- *  โดยค่าล่าสุดของ DHT sensor จะถูกเก็บไว้ที่ตัวแปร DHT_temp , DHT_humid 
- *  ซึ่ง task อื่นๆ สามารถนำไปใช้งานได้ เมื่อต้องการ
- *  
- *  หมายเหตุ
- *  ภายใน task ให้ใช้ DELAY() ตัวพิมพ์ใหญ่ทั้งหมด
- *  ไลบรารี่ DHT ใช้ของ Adafruit โดย ให้ติดตั้งไลบรารี่ทั้ง 2 นี้
- *     https://github.com/adafruit/Adafruit_Sensor
- *     https://github.com/adafruit/DHT-sensor-library
- *  
- **************************************************************/
+ * DHT_func
+ *
+ * This task will perform Read DHT sensor values ​​only
+ * There will be no other work being divided Absolutely work together, not mixed
+ * The latest value of the DHT sensor is stored in the variable DHT_temp, DHT_humid.
+ * Which other tasks can be used when needed
+ *
+ * Note
+ * Within the task, use all capital letters DELAY ().
+ * DHT libraries are used by Adafruit. To install these 2 libraries
+ * https://github.com/adafruit/Adafruit_Sensor
+ * https://github.com/adafruit/DHT-sensor-library
+ *
+ **************************************************** ************ /
  
 #include <DHT.h>
 
-#define DHT_PIN             5           // กำหนดขา pin
-#define DHT_TYPE            DHT11       // กำหนดประเภท DHT11 หรือ DHT22
-#define DHT_INTERVAL        1000        // (ms) กำหนดช่วงเวลาที่จะเข้าไปอ่านค่า sensor ซ้ำ
+#define DHT_PIN             5           // set pin pin
+#define DHT_TYPE            DHT11      // Set type DHT11 or DHT22
+#define DHT_INTERVAL        1000        // (ms) set the time period for repeat sensor readings
 
 // Task Share Variables Info
-// xDHT_temp   : ข้อมูล อุณหภูมิ ล่าสุด สำหรับ task อื่นนำไปใช้ได้ 
-// xDHT_humid  : ข้อมูล ความชื้น ล่าสุด สำหรับ task อื่นนำไปใช้ได้ 
-
+// xDHT_temp: Latest temperature data for other tasks.
+// xDHT_humid: Latest moisture data for other tasks is available.
+  
 void DHT_func(void*) {
-  //----พื้นที่สำหรับประกาศตัวแปรที่ใช้ภายใน task นี้เท่านั้น----
+  // ---- Space for declaring variables used within this task only ----
   DHT dht(DHT_PIN, DHT_TYPE);
   //-----------------------------------------------
-  VOID SETUP() {                       // VOID SETUP() ใน task ใช้พิมพ์ใหญ่
+  VOID SETUP() {                       // VOID SETUP() In the task, use uppercase
     Serial.println("[DHT] task begin");
     dht.begin();
   }
 
-  VOID LOOP() {                       // VOID LOOP() ใน task ใช้พิมพ์ใหญ่
+  VOID LOOP() {                       // VOID LOOP() In the task, use uppercase
     float t = NAN; float h = NAN;  
     while( isnan(t) || isnan(h) ) {
       t = dht.readTemperature();
       h = dht.readHumidity();
     }
-    xDHT_temp = t;  xDHT_humid = h;  // ค่าที่อ่านได้ถูกต้องแล้ว ค่อย copy ไปไว้ที่ ตัวแปรค่าล่าสุด
+    xDHT_temp = t;  xDHT_humid = h; // The value that has been read is correct and then copied to the latest variable
     Serial.printf("[DHT] temp : %.2f C\thumid : %.2f %%\n", xDHT_temp, xDHT_humid);
     
-    DELAY(DHT_INTERVAL);              // วนรอบถัดไปที่จะอ่าน sensor อีกครั้ง
+    DELAY(DHT_INTERVAL);              // Next loop to read the sensor again
   }
 }
 
